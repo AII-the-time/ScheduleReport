@@ -1,0 +1,14 @@
+model Manager{
+    id Int @id @default(autoincrement())
+    phoneNumber String
+    name String
+    wage Decimal
+    defaultStartTime String
+    defaultEndTime String
+    weekendStartTime String
+    weekendEndTime String
+    holidayStartTime String
+    holidayEndTime String
+    closedDays String
+    workers Worker[]
+}

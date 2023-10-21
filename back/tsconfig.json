@@ -1,0 +1,31 @@
+{
+    "compilerOptions": {
+        "strict": true,
+        "target": "es6",
+        "module": "es6",
+        "moduleResolution": "node",
+        "outDir": "build",
+        "esModuleInterop": true,
+        "baseUrl": ".",
+        "paths": {
+            "@api": ["src/api"],
+            "@config": ["src/config"],
+            "@DTO/*": ["src/DTO/*"],
+            "@loaders": ["src/loaders"],
+            "@services/*": ["src/services/*"],
+            "@utils/*": ["src/utils/*"],
+            "@errors": ["src/errors"],
+            "@errors/*": ["src/errors/*"],
+            "@routes/*": ["src/api/routes/*"],
+            "@hooks/*": ["src/api/hooks/*"],
+            "@server": ["src/server"],
+        }
+    },
+    "include": [
+        "src/**/*.ts",
+        "test/**/*.ts"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
+}
