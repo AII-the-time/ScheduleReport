@@ -1,4 +1,4 @@
-function App() {
+function Main() {
     return (
         <div>
             테스트
@@ -6,4 +6,4 @@ function App() {
     )
 }
 
-export default App;
+export default Main;
