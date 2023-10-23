@@ -4,6 +4,8 @@ import {
   SchemaToInterface,
 } from '@DTO/index.dto';
 import * as E from '@errors';
+import { Manager as prismaUser } from '@prisma/client';
+export type User = prismaUser;
 
 export const phoneSchema = {
   tags: ['manager'],
@@ -60,14 +62,62 @@ export const certificatePhoneSchema = {
   },
 } as const;
 
+export const registerSchema = {
+  tags: ['manager'],
+  summary: '관리자 생성',
+  body: {
+    type: 'object',
+    required: [
+      'certificatedPhoneToken',
+      'name',
+      'wage',
+      'defaultStartTime',
+      'defaultEndTime',
+      'weekendStartTime',
+      'weekendEndTime',
+      'holidayStartTime',
+      'holidayEndTime',
+      'closedDays',
+    ],
+    properties: {
+      certificatedPhoneToken: { type: 'string' },
+      name: { type: 'string' },
+      wage: { type: 'number' },
+      defaultStartTime: { type: 'string' },
+      defaultEndTime: { type: 'string' },
+      weekendStartTime: { type: 'string' },
+      weekendEndTime: { type: 'string' },
+      holidayStartTime: { type: 'string' },
+      holidayEndTime: { type: 'string' },
+      closedDays: { type: 'string' },
+    },
+  },
+  response: {
+    201: {
+      type: 'object',
+      description: 'success response',
+      required: ['userId'],
+      properties: {
+        userId: { type: 'number' },
+      },
+    },
+    ...errorSchema(
+      E.NotFoundError,
+      E.UserAuthorizationError,
+      E.StoreAuthorizationError,
+      E.NoAuthorizationInHeaderError,
+      E.UncorrectTokenError
+    ),
+  },
+} as const;
+
 export const loginSchema = {
   tags: ['manager'],
   summary: '로그인',
   body: {
     type: 'object',
-    required: ['businessRegistrationNumber', 'certificatedPhoneToken'],
+    required: ['certificatedPhoneToken'],
     properties: {
-      businessRegistrationNumber: { type: 'string' },
       certificatedPhoneToken: { type: 'string' },
     },
   },
@@ -122,4 +172,9 @@ export type certificatePhoneInterface = SchemaToInterface<
 export type loginInterface = SchemaToInterface<typeof loginSchema>;
 export type refreshInterface = SchemaToInterface<typeof refreshSchema> & {
   Body: { userId: number };
+};
+export type registerInterface = SchemaToInterface<typeof registerSchema> & {
+  Body: {
+    userId: number;
+  };
 };

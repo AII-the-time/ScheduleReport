@@ -8,6 +8,7 @@ import * as E from '@errors';
 export const phoneSchema = {
   tags: ['manager'],
   summary: '사용자 휴대폰으로 인증번호 발송',
+  headers: AuthorizationHeader,
   body: {
     type: 'object',
     required: ['phone'],
@@ -32,6 +33,7 @@ export const phoneSchema = {
 export const certificatePhoneSchema = {
   tags: ['manager'],
   summary: '인증 번호 확인',
+  headers: AuthorizationHeader,
   body: {
     type: 'object',
     required: ['phone', 'certificationCode', 'phoneCertificationToken'],
@@ -68,37 +70,28 @@ export const getWorkerListSchema = {
     200: {
       type: 'object',
       description: 'success response',
-      required: ['workers'],
+      required: ['workerList'],
       properties: {
-        workers: {
+        workerList: {
           type: 'array',
           items: {
             type: 'object',
-            required: ['name', 'phone', 'workTime'],
+            required: ['name', 'phoneNumber'],
             properties: {
               name: { type: 'string' },
-              phone: { type: 'string' },
-              workTime: {
-                type: 'array',
-                required: ['startTime', 'endTime', 'workDay'],
-                properties: {
-                  startTime: { type: 'string' },
-                  endTime: { type: 'string' },
-                  workDay: { type: 'string' },
-                },
-              },
+              phoneNumber: { type: 'string' },
             },
           },
         },
       },
     },
-    ...errorSchema(
-      E.NotFoundError,
-      E.UserAuthorizationError,
-      E.StoreAuthorizationError,
-      E.NoAuthorizationInHeaderError
-    ),
   },
+  ...errorSchema(
+    E.NotFoundError,
+    E.UserAuthorizationError,
+    E.StoreAuthorizationError,
+    E.NoAuthorizationInHeaderError
+  ),
 } as const;
 
 export const registerWorkerSchema = {
@@ -107,19 +100,11 @@ export const registerWorkerSchema = {
   headers: AuthorizationHeader,
   body: {
     type: 'object',
-    required: ['name', 'certificatedPhoneToken', 'workTime'],
+    required: ['name', 'certificatedPhoneToken', 'managerId'],
     properties: {
       certificatedPhoneToken: { type: 'string' },
+      managerId: { type: 'number' },
       name: { type: 'string' },
-      workTime: {
-        type: 'array',
-        required: ['startTime', 'endTime', 'workDay'],
-        properties: {
-          startTime: { type: 'string' },
-          endTime: { type: 'string' },
-          workDay: { type: 'string' },
-        },
-      },
     },
   },
   response: {
@@ -140,13 +125,23 @@ export const registerWorkerSchema = {
   },
 } as const;
 
-export type phoneInterface = SchemaToInterface<typeof phoneSchema>;
+export type phoneInterface = SchemaToInterface<typeof phoneSchema> & {
+  Body: { userId: number };
+};
 export type certificatePhoneInterface = SchemaToInterface<
   typeof certificatePhoneSchema
->;
+> & { Body: { userId: number } };
 export type getWorkerListInterface = SchemaToInterface<
   typeof getWorkerListSchema
->;
+> & {
+  Body: {
+    userId: number;
+  };
+};
 export type registerWorkerInterface = SchemaToInterface<
   typeof registerWorkerSchema
->;
+> & {
+  Body: {
+    userId: number;
+  };
+};

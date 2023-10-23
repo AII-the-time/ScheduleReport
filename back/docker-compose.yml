@@ -1,0 +1,30 @@
+version: '1'
+
+services:
+  db:
+    image: mysql:8.1.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: db
+    networks:
+      - my-network
+
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: reinpos
+    env_file:
+      - .local.docker.env
+    ports:
+      - 3000:3000
+    depends_on:
+      - db
+    networks:
+      - my-network
+    links:
+      - db
+
+networks:
+  my-network:

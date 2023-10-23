@@ -1,0 +1,9 @@
+model Schedule{
+    id Int @id @default(autoincrement())
+    date DateTime
+    startTime Int
+    endTime Int
+    workerName String
+    workerId Int
+    worker Worker @relation(fields: [workerId], references: [id])
+}

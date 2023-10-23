@@ -1,14 +1,5 @@
-/*
-  Warnings:
-
-  - You are about to drop the `Test` table. If the table is not empty, all the data it contains will be lost.
-
-*/
--- DropTable
-DROP TABLE `Test`;
-
 -- CreateTable
-CREATE TABLE `Maneger` (
+CREATE TABLE `Manager` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
     `phoneNumber` VARCHAR(191) NOT NULL,
     `name` VARCHAR(191) NOT NULL,
@@ -25,25 +16,29 @@ CREATE TABLE `Maneger` (
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
 -- CreateTable
-CREATE TABLE `Worker` (
+CREATE TABLE `Schedule` (
     `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `phoneNumber` VARCHAR(191) NOT NULL,
-    `name` VARCHAR(191) NOT NULL,
-    `totalWorkTime` VARCHAR(191) NOT NULL,
-
-    PRIMARY KEY (`id`)
-) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
-
--- CreateTable
-CREATE TABLE `WorkTime` (
-    `id` INTEGER NOT NULL AUTO_INCREMENT,
-    `workDay` VARCHAR(191) NOT NULL,
-    `startTime` VARCHAR(191) NOT NULL,
-    `endTime` VARCHAR(191) NOT NULL,
+    `date` DATETIME(3) NOT NULL,
+    `startTime` INTEGER NOT NULL,
+    `endTime` INTEGER NOT NULL,
+    `workerName` VARCHAR(191) NOT NULL,
     `workerId` INTEGER NOT NULL,
 
     PRIMARY KEY (`id`)
 ) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
 
+-- CreateTable
+CREATE TABLE `Worker` (
+    `id` INTEGER NOT NULL AUTO_INCREMENT,
+    `phoneNumber` VARCHAR(191) NOT NULL,
+    `name` VARCHAR(191) NOT NULL,
+    `managerId` INTEGER NOT NULL,
+
+    PRIMARY KEY (`id`)
+) DEFAULT CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;
+
 -- AddForeignKey
-ALTER TABLE `WorkTime` ADD CONSTRAINT `WorkTime_workerId_fkey` FOREIGN KEY (`workerId`) REFERENCES `Worker`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+ALTER TABLE `Schedule` ADD CONSTRAINT `Schedule_workerId_fkey` FOREIGN KEY (`workerId`) REFERENCES `Worker`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;
+
+-- AddForeignKey
+ALTER TABLE `Worker` ADD CONSTRAINT `Worker_managerId_fkey` FOREIGN KEY (`managerId`) REFERENCES `Manager`(`id`) ON DELETE RESTRICT ON UPDATE CASCADE;

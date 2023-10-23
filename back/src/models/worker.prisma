@@ -2,26 +2,7 @@ model Worker{
     id Int @id @default(autoincrement())
     phoneNumber String
     name String
-    defaultWorkTimes DefaultWorkTime[]
-    realWorkTimes RealWorkTime[]
     managerId Int
     manager Manager @relation(fields: [managerId], references: [id])
-}
-
-model DefaultWorkTime{
-    id Int @id @default(autoincrement())
-    workDay String
-    startTime String
-    endTime String
-    workerId Int
-    worker Worker @relation(fields: [workerId], references: [id])
-}
-
-model RealWorkTime{
-    id Int @id @default(autoincrement())
-    workDay DateTime
-    startTime String
-    endTime String
-    workerId Int
-    worker Worker @relation(fields: [workerId], references: [id])
+    schedules Schedule[]
 }
