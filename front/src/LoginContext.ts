@@ -1,8 +1,14 @@
 import { createContext } from "react";
 export default createContext<{
-    managerId: number | null;
-    setManagerId: React.Dispatch<React.SetStateAction<number | null>>;
+    accessToken: string | null;
+    setAccessToken: React.Dispatch<React.SetStateAction<string | null>>;
+    modalType: "LOGIN" | "STORE_INFO" | "WORKER_INFO" | null;
+    setModalType: React.Dispatch<
+        React.SetStateAction<"LOGIN" | "STORE_INFO" | "WORKER_INFO" | null>
+    >;
 }>({
-    managerId: null,
-    setManagerId: ()=>{}
+    accessToken: null,
+    setAccessToken: () => {},
+    modalType: null,
+    setModalType: () => {},
 });

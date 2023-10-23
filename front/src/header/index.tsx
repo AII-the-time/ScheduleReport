@@ -35,14 +35,14 @@ const ButtonGroup = styled.div`
 
 export default function () {
 
-    const {managerId,setManagerId} = useContext(LoginContext);
+    const {accessToken,setAccessToken} = useContext(LoginContext);
     return (
         <Header>
             <LogoTitle>CAFE POS</LogoTitle>
             <ButtonGroup>
-                {managerId && <Button text="가게 정보 변경" />}
-                {managerId && <Button text="근무자 관리" /> }
-                {managerId ? <Button text="로그아웃" onClick={()=>{setManagerId(null)}} /> : <Button text="로그인" onClick={()=>{setManagerId(1)}}/>}
+                {accessToken && <Button text="가게 정보 변경" />}
+                {accessToken && <Button text="근무자 관리" /> }
+                {accessToken ? <Button text="로그아웃" onClick={()=>{setAccessToken(null)}} /> : <Button text="로그인" onClick={()=>{setAccessToken("as")}}/>}
             </ButtonGroup>
         </Header>
     )
