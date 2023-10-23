@@ -12,5 +12,7 @@ html {
 }
 
 :root {
-  --main-color: #2962ff
+  --color-primary: #312222;
+  --color-background: #ffffff;
+  --color-primary-alpha: rgba(49, 34, 34, 0.3);
 }
